@@ -128,3 +128,67 @@ def convert_coordinates(x, y, w, h, offset_x, offset_y):
         int(w),
         int(h)
     )
+
+# ============================================================
+# IOU SZÁMÍTÁS
+# ============================================================
+
+def calculate_iou(box1, box2):
+    """
+    Kiszámítja két téglalap metszetének
+    és egyesítésének arányát.
+    """
+
+    x1 = max(box1[0], box2[0])
+    y1 = max(box1[1], box2[1])
+
+    x2 = min(
+        box1[0] + box1[2],
+        box2[0] + box2[2]
+    )
+
+    y2 = min(
+        box1[1] + box1[3],
+        box2[1] + box2[3]
+    )
+
+    intersection_width = max(0, x2 - x1)
+    intersection_height = max(0, y2 - y1)
+
+    intersection = intersection_width * intersection_height
+
+    area1 = box1[2] * box1[3]
+    area2 = box2[2] * box2[3]
+
+    union = area1 + area2 - intersection
+
+    if union <= 0:
+        return 0
+
+    return intersection / union
+
+
+# ============================================================
+# DUPLIKÁLT TALÁLATOK SZŰRÉSE
+# ============================================================
+
+def remove_duplicates(boxes, threshold=0.5):
+    """
+    Eltávolítja az egymást nagymértékben
+    átfedő téglalapokat.
+    """
+
+    filtered_boxes = []
+
+    for box in boxes:
+        duplicate = False
+
+        for existing_box in filtered_boxes:
+            if calculate_iou(box, existing_box) > threshold:
+                duplicate = True
+                break
+
+        if not duplicate:
+            filtered_boxes.append(box)
+
+    return filtered_boxes
