@@ -285,3 +285,22 @@ else:
         st.write(f"**Méret:** {uploaded_file.size / 1024:.1f} KB")
         st.write(f"**Formátum:** {original_image.format or uploaded_file.type}")
         st.write(f"**Felbontás:** {original_image.width} × {original_image.height}")
+            st.markdown("""
+    <div class="section-label" style="margin-top: 35px;">
+        03 / FELDOLGOZÁS
+    </div>
+
+    <h3>
+        Készen állsz az anonimizálásra?
+    </h3>
+
+    <p style="color: #94a3b8;">
+        Indítsd el a mesterséges intelligencia alapú
+        képfeldolgozást.
+    </p>
+    """, unsafe_allow_html=True)
+
+    process_button = st.button(
+        "🔒  Kép anonimizálása",
+        use_container_width=True
+    )
