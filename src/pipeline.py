@@ -254,3 +254,103 @@ def blur_region(image, box):
     )
 
     image[y:y + h, x:x + w] = blurred
+
+# ============================================================
+# FŐ KÉPFELDOLGOZÓ FÜGGVÉNY
+# ============================================================
+
+def process_image(image_path):
+
+    print("\nSmartBlur feldolgozás elindult!")
+
+    # --------------------------------------------------------
+    # 1. EREDETI KÉP BETÖLTÉSE
+    # --------------------------------------------------------
+
+    image = cv2.imread(image_path)
+
+    if image is None:
+        raise ValueError(
+            f"A kép nem tölthető be: {image_path}"
+        )
+
+    height, width = image.shape[:2]
+
+    print(f"Kép mérete: {width} x {height}")
+
+    # --------------------------------------------------------
+    # 2. YUNET ARCFELISMERŐ MODELL ELŐKÉSZÍTÉSE
+    # --------------------------------------------------------
+
+    face_detector = cv2.FaceDetectorYN.create(
+        FACE_MODEL_PATH,
+        "",
+        (320, 320),
+        0.7,
+        0.3,
+        5000
+    )
+
+    # --------------------------------------------------------
+    # 3. EMBEREK ÉS AUTÓK FELISMERÉSE YOLO SEGÍTSÉGÉVEL
+    # --------------------------------------------------------
+
+    print("\n1. modell: Emberek és autók felismerése...")
+
+    object_results = object_model(
+        image,
+        conf=0.10,
+        iou=0.45,
+        max_det=300,
+        verbose=False
+    )
+
+    person_boxes = []
+    car_boxes = []
+
+    for result in object_results:
+        for box in result.boxes:
+
+            class_id = int(box.cls[0])
+
+            x1, y1, x2, y2 = map(
+                int,
+                box.xyxy[0].tolist()
+            )
+
+            x1 = max(0, x1)
+            y1 = max(0, y1)
+
+            x2 = min(width, x2)
+            y2 = min(height, y2)
+
+            box_width = x2 - x1
+            box_height = y2 - y1
+
+            if box_width <= 0 or box_height <= 0:
+                continue
+
+            # COCO 0 = személy
+            if class_id == 0:
+                person_boxes.append(
+                    (x1, y1, box_width, box_height)
+                )
+
+            # COCO 2 = autó
+            elif class_id == 2:
+                car_boxes.append(
+                    (x1, y1, box_width, box_height)
+                )
+
+    person_boxes = remove_duplicates(
+        person_boxes,
+        threshold=0.45
+    )
+
+    car_boxes = remove_duplicates(
+        car_boxes,
+        threshold=0.55
+    )
+
+    print(f"Ember régiók: {len(person_boxes)}")
+    print(f"Autó régiók: {len(car_boxes)}")
