@@ -366,3 +366,23 @@ else:
                 label="Összes anonimizált objektum",
                 value=total
             )
+        st.markdown("""
+        <div class="section-label" style="margin-top: 35px;">
+            05 / FELISMERÉSI DIAGNOSZTIKA
+        </div>
+
+        <h3>
+            AI felismerési eredmények
+        </h3>
+
+        <p style="color: #94a3b8;">
+            A rendszer által felismert területek
+            színes keretekkel megjelölve.
+        </p>
+        """, unsafe_allow_html=True)
+
+        st.image(
+            st.session_state["diagnostic"],
+            caption="Zöld keret: arcok | Piros keret: rendszámok",
+            use_container_width=True
+        )
