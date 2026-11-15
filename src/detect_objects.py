@@ -58,3 +58,23 @@ for box in results[0].boxes:
     if name in ["person", "car"]:
         print(f"{name} - Bizonyosság: {confidence:.2%}")
 
+
+# ============================================================
+# FELISMERT OBJEKTUMOK MEGJELENÍTÉSE
+# ============================================================
+
+result_image = results[0].plot()
+
+
+# ============================================================
+# EREDMÉNY MENTÉSE
+# ============================================================
+
+os.makedirs("output", exist_ok=True)
+
+cv2.imwrite("output/detection.jpg", result_image)
+
+print("\nFeldolgozás kész!")
+print("Eredmény: output/detection.jpg")
+
+
