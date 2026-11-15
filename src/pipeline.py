@@ -110,3 +110,21 @@ plate_model = YOLO(PLATE_MODEL_PATH)
 prepare_face_model()
 
 print("SmartBlur modellek sikeresen betöltve!")
+
+
+# ============================================================
+# KOORDINÁTÁK ÁTALAKÍTÁSA
+# ============================================================
+
+def convert_coordinates(x, y, w, h, offset_x, offset_y):
+    """
+    A kivágott kép koordinátáit visszaalakítja
+    az eredeti kép koordinátáira.
+    """
+
+    return (
+        int(x + offset_x),
+        int(y + offset_y),
+        int(w),
+        int(h)
+    )
