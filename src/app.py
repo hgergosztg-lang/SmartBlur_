@@ -411,3 +411,59 @@ else:
                 st.session_state["result"],
                 use_container_width=True
             )
+                    st.markdown("""
+        <div class="section-label" style="margin-top: 40px;">
+            07 / LETÖLTÉS
+        </div>
+
+        <h3>
+            Töltsd le az elkészült képet
+        </h3>
+
+        <p style="color: #94a3b8;">
+            Az anonimizált kép készen áll a letöltésre.
+        </p>
+        """, unsafe_allow_html=True)
+
+        download_buffer = BytesIO()
+
+        Image.fromarray(
+            st.session_state["result"]
+        ).save(
+            download_buffer,
+            format="JPEG",
+            quality=95
+        )
+
+        st.download_button(
+            label="⬇️  Anonimizált kép letöltése",
+            data=download_buffer.getvalue(),
+            file_name="smartblur_anonymized.jpg",
+            mime="image/jpeg",
+            use_container_width=True
+        )
+                st.markdown("""
+        <div class="info-strip">
+            <strong>🔒 Adatvédelem</strong><br><br>
+            A SmartBlur célja a személyes adatok védelme.
+            A rendszer automatikusan felismeri és elhomályosítja
+            az arcokat és a gépjárművek rendszámait.
+        </div>
+        """, unsafe_allow_html=True)
+
+st.markdown("""
+<div style="
+    margin-top: 70px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+">
+    <strong style="color: #94a3b8;">SMARTBLUR</strong>
+    <br><br>
+    AI-powered image anonymization
+    <br>
+    © 2026 SmartBlur Project
+</div>
+""", unsafe_allow_html=True)
