@@ -304,3 +304,29 @@ else:
         "🔒  Kép anonimizálása",
         use_container_width=True
     )
+    if process_button:
+        try:
+            with st.spinner(
+                "A mesterséges intelligencia feldolgozza a képet..."
+            ):
+                images_dir = os.path.join(BASE_DIR, "images")
+                os.makedirs(images_dir, exist_ok=True)
+
+                temp_path = os.path.join(
+                    images_dir,
+                    "uploaded_image.jpg"
+                )
+
+                original_image.save(temp_path, format="JPEG")
+
+                results = process_image(temp_path)
+
+                st.session_state["result"] = results["anonymized"]
+                st.session_state["diagnostic"] = results["diagnostic"]
+                st.session_state["face_count"] = results["face_count"]
+                st.session_state["plate_count"] = results["plate_count"]
+
+            st.success("A kép anonimizálása sikeresen befejeződött!")
+
+        except Exception as e:
+            st.error(f"Hiba történt a feldolgozás során: {e}")
