@@ -409,3 +409,64 @@ def process_image(image_path):
                 face_boxes.append(full_face_box)
 
     print(f"Felismert arcok: {len(face_boxes)}")
+    
+    # --------------------------------------------------------
+    # 5. RENDSZÁMFELISMERÉS
+    # --------------------------------------------------------
+
+    print("\n3. modell: Rendszámok felismerése...")
+
+    plate_boxes = []
+
+    for car_box in car_boxes:
+
+        x, y, w, h = car_box
+
+        car_crop = image[
+            y:y + h,
+            x:x + w
+        ]
+
+        if car_crop.size == 0:
+            continue
+
+        plate_results = plate_model(
+            car_crop,
+            conf=0.25,
+            iou=0.45,
+            verbose=False
+        )
+
+        for result in plate_results:
+
+            for box in result.boxes:
+
+                px1, py1, px2, py2 = map(
+                    int,
+                    box.xyxy[0].tolist()
+                )
+
+                plate_width = px2 - px1
+                plate_height = py2 - py1
+
+                if plate_width <= 0 or plate_height <= 0:
+                    continue
+
+                full_plate_box = convert_coordinates(
+                    px1,
+                    py1,
+                    plate_width,
+                    plate_height,
+                    x,
+                    y
+                )
+
+                plate_boxes.append(full_plate_box)
+
+    plate_boxes = remove_duplicates(
+        plate_boxes,
+        threshold=0.35
+    )
+
+    print(f"Felismert rendszámok: {len(plate_boxes)}")
+
