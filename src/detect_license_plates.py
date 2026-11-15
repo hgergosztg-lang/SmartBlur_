@@ -63,3 +63,21 @@ if len(results[0].boxes) > 0:
 else:
     print("Nem található rendszám a képen.")
 
+# ============================================================
+# FELISMERT RENDSZÁMOK MEGJELENÍTÉSE
+# ============================================================
+
+result_image = results[0].plot()
+
+
+# ============================================================
+# EREDMÉNYEK MENTÉSE
+# ============================================================
+
+os.makedirs("output", exist_ok=True)
+
+cv2.imwrite("output/plates.jpg", result_image)
+
+print("\nFeldolgozás kész!")
+print("Eredmény: output/plates.jpg")
+
