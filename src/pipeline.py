@@ -354,3 +354,58 @@ def process_image(image_path):
 
     print(f"Ember régiók: {len(person_boxes)}")
     print(f"Autó régiók: {len(car_boxes)}")
+
+    # --------------------------------------------------------
+    # 4. ARCFELISMERÉS YUNET SEGÍTSÉGÉVEL
+    # --------------------------------------------------------
+
+    print("\n2. modell: Arcok felismerése...")
+
+    face_boxes = []
+
+    for person_box in person_boxes:
+
+        x, y, w, h = person_box
+
+        person_crop = image[
+            y:y + h,
+            x:x + w
+        ]
+
+        if person_crop.size == 0:
+            continue
+
+        crop_height, crop_width = person_crop.shape[:2]
+
+        face_detector.setInputSize(
+            (crop_width, crop_height)
+        )
+
+        _, faces = face_detector.detect(person_crop)
+
+        if faces is None:
+            continue
+
+        for face in faces:
+
+            fx = int(face[0])
+            fy = int(face[1])
+            fw = int(face[2])
+            fh = int(face[3])
+
+            full_face_box = convert_coordinates(
+                fx,
+                fy,
+                fw,
+                fh,
+                x,
+                y
+            )
+
+            if not is_duplicate_face(
+                full_face_box,
+                face_boxes
+            ):
+                face_boxes.append(full_face_box)
+
+    print(f"Felismert arcok: {len(face_boxes)}")
