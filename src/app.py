@@ -330,3 +330,39 @@ else:
 
         except Exception as e:
             st.error(f"Hiba történt a feldolgozás során: {e}")
+
+    if "result" in st.session_state:
+        st.markdown("""
+        <div class="section-label" style="margin-top: 45px;">
+            04 / FELISMERÉSI EREDMÉNYEK
+        </div>
+
+        <h3>
+            Anonimizálási statisztikák
+        </h3>
+        """, unsafe_allow_html=True)
+
+        metric1, metric2, metric3 = st.columns(3)
+
+        with metric1:
+            st.metric(
+                label="Felismerett arcok",
+                value=st.session_state["face_count"]
+            )
+
+        with metric2:
+            st.metric(
+                label="Felismerett rendszámok",
+                value=st.session_state["plate_count"]
+            )
+
+        with metric3:
+            total = (
+                st.session_state["face_count"]
+                + st.session_state["plate_count"]
+            )
+
+            st.metric(
+                label="Összes anonimizált objektum",
+                value=total
+            )
