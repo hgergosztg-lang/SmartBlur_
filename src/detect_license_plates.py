@@ -44,3 +44,22 @@ print("Rendszámok keresése...")
 results = model(image)
 
 print("Rendszámfelismerés befejeződött!")
+
+# ============================================================
+# FELISMERT RENDSZÁMOK FELDOLGOZÁSA
+# ============================================================
+
+print("\nFelismerési eredmények:")
+
+if len(results[0].boxes) > 0:
+
+    for box in results[0].boxes:
+        confidence = float(box.conf[0])
+
+        x1, y1, x2, y2 = box.xyxy[0].int().tolist()
+
+        print(f"Rendszám - Bizonyosság: {confidence:.2%}")
+
+else:
+    print("Nem található rendszám a képen.")
+
