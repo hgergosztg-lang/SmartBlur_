@@ -197,3 +197,59 @@ st.markdown("""
 
 </div>
 """, unsafe_allow_html=True)
+st.markdown("""
+<div class="section-label">
+    01 / KÉPFELTÖLTÉS
+</div>
+
+<h3 style="margin-bottom: 5px;">
+    Válaszd ki a feldolgozandó képet
+</h3>
+
+<p style="color: #94a3b8; margin-bottom: 20px;">
+    Tölts fel egy képet, amelyen szeretnéd anonimizálni
+    az arcokat és a rendszámokat.
+</p>
+""", unsafe_allow_html=True)
+
+uploaded_file = st.file_uploader(
+    "Húzd ide a képet, vagy tallózz a fájlok között",
+    type=["jpg", "jpeg", "png"],
+    help="Támogatott formátumok: JPG, JPEG, PNG"
+)
+if uploaded_file is None:
+    for key in [
+        "result",
+        "diagnostic",
+        "face_count",
+        "plate_count",
+        "file_id"
+    ]:
+        st.session_state.pop(key, None)
+
+    st.markdown("""
+    <div class="info-strip">
+        <strong>Hogyan működik?</strong><br><br>
+        1. Tölts fel egy képet.<br>
+        2. Indítsd el az AI-alapú felismerést.<br>
+        3. A rendszer anonimizálja az arcokat és a rendszámokat.<br>
+        4. Töltsd le az elkészült képet.
+    </div>
+    """, unsafe_allow_html=True)
+
+else:
+    current_file_id = (
+        uploaded_file.name,
+        uploaded_file.size
+    )
+
+    if st.session_state.get("file_id") != current_file_id:
+        for key in [
+            "result",
+            "diagnostic",
+            "face_count",
+            "plate_count"
+        ]:
+            st.session_state.pop(key, None)
+
+        st.session_state["file_id"] = current_file_id
