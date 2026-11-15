@@ -192,3 +192,65 @@ def remove_duplicates(boxes, threshold=0.5):
             filtered_boxes.append(box)
 
     return filtered_boxes
+
+# ============================================================
+# DUPLIKÁLT ARCFELISMERÉSEK SZŰRÉSE
+# ============================================================
+
+def is_duplicate_face(box, existing_faces):
+    """
+    Kiszűri a már felismert arcok ismételt találatait.
+    """
+
+    center_x = box[0] + box[2] / 2
+    center_y = box[1] + box[3] / 2
+
+    for existing in existing_faces:
+        existing_center_x = existing[0] + existing[2] / 2
+        existing_center_y = existing[1] + existing[3] / 2
+
+        distance = (
+            (center_x - existing_center_x) ** 2
+            + (center_y - existing_center_y) ** 2
+        ) ** 0.5
+
+        if calculate_iou(box, existing) > 0.3 or distance < 20:
+            return True
+
+    return False
+
+
+# ============================================================
+# GAUSSIAN BLUR ALKALMAZÁSA
+# ============================================================
+
+def blur_region(image, box):
+    """
+    Gaussian blur alkalmazása a megadott képrészleten.
+    """
+
+    x, y, w, h = box
+
+    height, width = image.shape[:2]
+
+    x = max(0, x)
+    y = max(0, y)
+
+    w = min(w, width - x)
+    h = min(h, height - y)
+
+    if w <= 0 or h <= 0:
+        return
+
+    region = image[y:y + h, x:x + w]
+
+    if region.size == 0:
+        return
+
+    blurred = cv2.GaussianBlur(
+        region,
+        (51, 51),
+        30
+    )
+
+    image[y:y + h, x:x + w] = blurred
