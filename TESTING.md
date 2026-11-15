@@ -78,18 +78,31 @@ Vizsgált funkciók:
 - Eredeti és anonimizált kép összehasonlítása.
 - Eredmény letöltése.
 
+
 ## 4. Teszteredmények
 
-Az alábbi táblázat a tényleges tesztelés során tölthető ki.
+A projekt tesztelése során a SmartBlur alkalmazás helyi környezetben sikeresen elindult és a fő funkciók működését ellenőriztük.
 
 | Teszteset | Elvárt eredmény | Tényleges eredmény |
 |---|---|---|
-| Tesztkép betöltése | Kép sikeres beolvasása | Kitöltendő |
-| Objektumfelismerés | Személyek és autók felismerése | Kitöltendő |
-| Arcfelismerés | Arcok lokalizálása | Kitöltendő |
-| Rendszámfelismerés | Rendszámok lokalizálása | Kitöltendő |
-| Anonimizálás | Felismert területek elhomályosítása | Kitöltendő |
-| Kép letöltése | Eredmény sikeres letöltése | Kitöltendő |
+| Tesztkép betöltése | Kép sikeres beolvasása | Sikeres |
+| Objektumfelismerés | Személyek és autók felismerése | Sikeres |
+| Arcfelismerés | Arcok lokalizálása | Sikeres |
+| Rendszámfelismerés | Rendszámok lokalizálása | Sikeres |
+| Anonimizálás | Felismert területek elhomályosítása | Sikeres |
+| Diagnosztikai kép | Felismert területek megjelölése | Sikeres |
+| Kép letöltése | Eredmény sikeres letöltése | Sikeres |
+
+### Tesztelési tapasztalatok
+
+A tesztelés során a rendszer sikeresen felismerte az emberi arcokat és a gépjárművek rendszámtábláit.
+
+A felismert területeken a Gaussian Blur eljárás megfelelően működött, az anonimizált kép pedig megjelent a felhasználói felületen.
+
+A különálló felismerőmodulok és az integrált képfeldolgozási folyamat is működőképesnek bizonyult.
+
+A tesztelés funkcionális ellenőrzésen alapult, nem reprezentatív pontosságmérésen.
+
 
 ## 5. Korlátok
 
