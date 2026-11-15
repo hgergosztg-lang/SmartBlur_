@@ -386,3 +386,28 @@ else:
             caption="Zöld keret: arcok | Piros keret: rendszámok",
             use_container_width=True
         )
+        st.markdown("""
+        <div class="section-label" style="margin-top: 45px;">
+            06 / VÉGEREDMÉNY
+        </div>
+
+        <h3>
+            Eredeti és anonimizált kép összehasonlítása
+        </h3>
+        """, unsafe_allow_html=True)
+
+        original_col, result_col = st.columns(2)
+
+        with original_col:
+            st.markdown("**Eredeti kép**")
+            st.image(
+                original_image,
+                use_container_width=True
+            )
+
+        with result_col:
+            st.markdown("**Anonimizált kép**")
+            st.image(
+                st.session_state["result"],
+                use_container_width=True
+            )
