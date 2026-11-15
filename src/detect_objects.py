@@ -32,3 +32,14 @@ if image is None:
     exit()
 
 print("Tesztkép sikeresen betöltve!")
+
+# ============================================================
+# OBJEKTUMFELISMERÉS
+# ============================================================
+
+print("Objektumok felismerése...")
+
+results = model(image)
+
+print("Objektumfelismerés befejeződött!")
+
