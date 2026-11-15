@@ -502,3 +502,68 @@ def process_image(image_path):
             2
         )
 
+
+    # --------------------------------------------------------
+    # 7. ANONIMIZÁLÁS
+    # --------------------------------------------------------
+
+    print("\nAnonimizálás folyamatban...")
+
+    anonymized_image = image.copy()
+
+    for box in face_boxes:
+        blur_region(anonymized_image, box)
+
+    for box in plate_boxes:
+        blur_region(anonymized_image, box)
+
+    # --------------------------------------------------------
+    # 8. EREDMÉNYEK MENTÉSE
+    # --------------------------------------------------------
+
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    cv2.imwrite(
+        os.path.join(OUTPUT_DIR, "pipeline_result.jpg"),
+        diagnostic_image
+    )
+
+    cv2.imwrite(
+        os.path.join(OUTPUT_DIR, "anonymized.jpg"),
+        anonymized_image
+    )
+
+    # --------------------------------------------------------
+    # 9. FELISMERÉSI STATISZTIKÁK
+    # --------------------------------------------------------
+
+    face_count = len(face_boxes)
+    plate_count = len(plate_boxes)
+
+    print("\n========== SMARTBLUR EREDMÉNY ==========")
+
+    print(f"Felismert arcok: {face_count}")
+    print(f"Felismert rendszámok: {plate_count}")
+
+    print("\nEredményfájlok:")
+    print(os.path.join(OUTPUT_DIR, "pipeline_result.jpg"))
+    print(os.path.join(OUTPUT_DIR, "anonymized.jpg"))
+
+    print("\nSmartBlur feldolgozás befejeződött!")
+
+    # --------------------------------------------------------
+    # 10. EREDMÉNYEK VISSZAADÁSA A STREAMLITNEK
+    # --------------------------------------------------------
+
+    return {
+        "anonymized": cv2.cvtColor(
+            anonymized_image,
+            cv2.COLOR_BGR2RGB
+        ),
+        "diagnostic": cv2.cvtColor(
+            diagnostic_image,
+            cv2.COLOR_BGR2RGB
+        ),
+        "face_count": face_count,
+        "plate_count": plate_count
+    }
