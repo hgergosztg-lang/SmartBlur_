@@ -93,3 +93,20 @@ def prepare_face_model():
     print(
         f"YuNet modell előkészítve: {FACE_MODEL_PATH}"
     )
+
+# ============================================================
+# AI-MODELLEK BETÖLTÉSE
+# ============================================================
+
+print("SmartBlur modellek betöltése...")
+
+# YOLO26n objektumfelismerő modell
+object_model = YOLO(OBJECT_MODEL_PATH)
+
+# YOLO rendszámfelismerő modell
+plate_model = YOLO(PLATE_MODEL_PATH)
+
+# YuNet modell előkészítése
+prepare_face_model()
+
+print("SmartBlur modellek sikeresen betöltve!")
