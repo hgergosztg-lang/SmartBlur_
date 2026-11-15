@@ -167,3 +167,33 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+st.markdown("""
+<div style="margin-bottom: 45px;">
+
+    <div style="
+        color: #60a5fa;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        margin-bottom: 15px;
+    ">
+        SMARTBLUR / AI TECHNOLOGY
+    </div>
+
+    <div class="status-online">
+        ● RENDSZER ONLINE
+    </div>
+
+    <div class="hero-title">
+        Your privacy.<br>
+        <span>Our intelligence.</span>
+    </div>
+
+    <div class="hero-subtitle">
+        Intelligens képanonimizáló rendszer, amely mesterséges
+        intelligencia segítségével automatikusan felismeri és
+        elhomályosítja az arcokat és a gépjárművek rendszámait.
+    </div>
+
+</div>
+""", unsafe_allow_html=True)
