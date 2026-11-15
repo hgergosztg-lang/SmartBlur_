@@ -470,3 +470,35 @@ def process_image(image_path):
 
     print(f"Felismert rendszámok: {len(plate_boxes)}")
 
+    # --------------------------------------------------------
+    # 6. DIAGNOSZTIKAI KÉP ELKÉSZÍTÉSE
+    # --------------------------------------------------------
+
+    diagnostic_image = image.copy()
+
+    # Arcok: zöld keret
+    for box in face_boxes:
+
+        x, y, w, h = box
+
+        cv2.rectangle(
+            diagnostic_image,
+            (x, y),
+            (x + w, y + h),
+            (0, 255, 0),
+            2
+        )
+
+    # Rendszámok: piros keret
+    for box in plate_boxes:
+
+        x, y, w, h = box
+
+        cv2.rectangle(
+            diagnostic_image,
+            (x, y),
+            (x + w, y + h),
+            (0, 0, 255),
+            2
+        )
+
