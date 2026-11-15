@@ -1,1 +1,23 @@
+# Python gyorsítótár
+__pycache__/
+*.py[cod]
+
+# Virtuális környezet
+.venv/
+venv/
+
+# Fejlesztőkörnyezet
+.vscode/
+.idea/
+
+# Ideiglenes fájlok
+*.log
+*.tmp
+
+# Feldolgozott képek
+output/
+
+# Operációs rendszer fájljai
+.DS_Store
+Thumbs.db
 
