@@ -253,3 +253,35 @@ else:
             st.session_state.pop(key, None)
 
         st.session_state["file_id"] = current_file_id
+
+    original_image = Image.open(uploaded_file).convert("RGB")
+
+    st.markdown("""
+    <div class="section-label">
+        02 / KÉP ELŐNÉZETE
+    </div>
+
+    <h3 style="margin-bottom: 15px;">
+        Feltöltött kép
+    </h3>
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns([1.5, 1])
+
+    with col1:
+        st.image(
+            original_image,
+            use_container_width=True
+        )
+
+    with col2:
+        st.markdown("### Fájl információk")
+
+        st.markdown(
+            f'<div class="file-name"><strong>Fájlnév:</strong> {uploaded_file.name}</div>',
+            unsafe_allow_html=True
+        )
+
+        st.write(f"**Méret:** {uploaded_file.size / 1024:.1f} KB")
+        st.write(f"**Formátum:** {original_image.format or uploaded_file.type}")
+        st.write(f"**Felbontás:** {original_image.width} × {original_image.height}")
