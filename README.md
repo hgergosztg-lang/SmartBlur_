@@ -144,3 +144,17 @@ A projekt egyéni fejlesztés keretében készült Python és gépi látás tém
 A fejlesztés során a felismerőmodellek külön tesztelése, majd egy közös képfeldolgozó rendszerbe történő integrálása valósult meg.
 
 A mesterséges intelligencia alapú fejlesztési segítség dokumentációja az `AI_USAGE.md` fájlban található.
+
+## Alkalmazás képernyőképei
+
+### Főoldal
+
+![SmartBlur főoldal](docs/screenshots/main_interface.png)
+
+### Feltöltött kép és felismerési eredmények
+
+![Felismerési eredmények](docs/screenshots/detection_result.png)
+
+### Anonimizált kép
+
+![Anonimizált eredmény](docs/screenshots/anonymized_result.png)
