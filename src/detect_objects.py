@@ -43,3 +43,18 @@ results = model(image)
 
 print("Objektumfelismerés befejeződött!")
 
+
+# ============================================================
+# FELISMERT OBJEKTUMOK FELDOLGOZÁSA
+# ============================================================
+
+print("\nFelismerési eredmények:")
+
+for box in results[0].boxes:
+    class_id = int(box.cls[0])
+    name = model.names[class_id]
+    confidence = float(box.conf[0])
+
+    if name in ["person", "car"]:
+        print(f"{name} - Bizonyosság: {confidence:.2%}")
+
