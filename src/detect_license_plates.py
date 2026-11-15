@@ -33,3 +33,14 @@ if image is None:
     exit()
 
 print("Tesztkép sikeresen betöltve!")
+
+
+# ============================================================
+# RENDSZÁMFELISMERÉS
+# ============================================================
+
+print("Rendszámok keresése...")
+
+results = model(image)
+
+print("Rendszámfelismerés befejeződött!")
